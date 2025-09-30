@@ -37,3 +37,6 @@ MUJOCO_LOG.TXT
 
 # Clang cache
 .cache/
+
+# Note: Expensive GitHub Actions workflows have been removed to save costs
+# Avoid adding .github/workflows/build.yml or similar expensive CI files

@@ -1,0 +1,133 @@
+<mujoco model="niryo_ned2_with_stl_meshes">
+  <compiler angle="radian" meshdir="../assets/meshes/niryo/stl/"/>
+  
+  <option timestep="0.002" integrator="RK4"/>
+  
+  <asset>
+    <!-- Import STL meshes from the Niryo repository -->
+    <mesh name="base_mesh" file="1- BASE - V1.STL" scale="0.001 0.001 0.001"/>
+    <mesh name="shoulder_mesh" file="2- SHOULDER - V1.STL" scale="0.001 0.001 0.001"/>
+    <mesh name="arm_mesh" file="3- ARM - V1.STL" scale="0.001 0.001 0.001"/>
+    <mesh name="elbow_mesh" file="4- ELBOW - V1.STL" scale="0.001 0.001 0.001"/>
+    <mesh name="forearm_mesh" file="5- FOREARM - V1.STL" scale="0.001 0.001 0.001"/>
+    <mesh name="wrist_mesh" file="6- WRIST - V1.STL" scale="0.001 0.001 0.001"/>
+    <mesh name="hand_mesh" file="7- HAND - V1.STL" scale="0.001 0.001 0.001"/>
+    <mesh name="gripper_mesh" file="11- GRIPPER 1 - NED 2.STL" scale="0.001 0.001 0.001"/>
+    
+    <!-- Materials for different components -->
+    <material name="base_material" rgba="0.2 0.2 0.2 1"/>
+    <material name="joint_material" rgba="0.3 0.3 0.3 1"/>
+    <material name="link_material" rgba="0.6 0.6 0.8 1"/>
+    <material name="gripper_material" rgba="0.8 0.6 0.2 1"/>
+  </asset>
+  
+  <worldbody>
+    <!-- Base -->
+    <body name="base_link" pos="0 0 0">
+      <geom name="base" type="mesh" mesh="base_mesh" material="base_material"/>
+      <inertial pos="0 0 0.02" mass="2.0" diaginertia="0.01 0.01 0.005"/>
+      
+      <!-- Joint 1 (Base rotation) -->
+      <body name="shoulder_link" pos="0 0 0.103">
+        <joint name="joint_1" type="hinge" axis="0 0 1" range="-2.97 2.97" damping="0.1"/>
+        <geom name="shoulder" type="mesh" mesh="shoulder_mesh" material="joint_material"/>
+        <inertial pos="0 0 0.04" mass="1.5" diaginertia="0.008 0.008 0.004"/>
+        
+        <!-- Joint 2 (Shoulder) -->
+        <body name="arm_link" pos="0 0 0.08" euler="1.57 0 0">
+          <joint name="joint_2" type="hinge" axis="0 0 1" range="-1.57 0.64" damping="0.1"/>
+          <geom name="arm" type="mesh" mesh="arm_mesh" material="link_material"/>
+          <inertial pos="0 0.075 0" mass="1.2" diaginertia="0.01 0.002 0.01"/>
+          
+          <!-- Joint 3 (Elbow) -->
+          <body name="forearm_link" pos="0 0.21 0" euler="0 0 0">
+            <joint name="joint_3" type="hinge" axis="0 0 1" range="-1.4 1.4" damping="0.1"/>
+            <geom name="elbow" type="mesh" mesh="elbow_mesh" material="joint_material"/>
+            <inertial pos="0 0.02 0" mass="0.8" diaginertia="0.005 0.005 0.002"/>
+            
+            <body name="forearm_body" pos="0 0.04 0">
+              <geom name="forearm" type="mesh" mesh="forearm_mesh" material="link_material"/>
+              <inertial pos="0 0.06 0" mass="0.8" diaginertia="0.008 0.002 0.008"/>
+              
+              <!-- Joint 4 (Wrist 1) -->
+              <body name="wrist_link" pos="0 0.18 0" euler="1.57 0 0">
+                <joint name="joint_4" type="hinge" axis="0 0 1" range="-2.0 2.0" damping="0.05"/>
+                <geom name="wrist" type="mesh" mesh="wrist_mesh" material="joint_material"/>
+                <inertial pos="0 0 0.02" mass="0.5" diaginertia="0.003 0.003 0.001"/>
+                
+                <!-- Joint 5 (Wrist 2) -->
+                <body name="wrist2_link" pos="0 0 0.072" euler="-1.57 0 0">
+                  <joint name="joint_5" type="hinge" axis="0 0 1" range="-1.7 1.7" damping="0.05"/>
+                  <inertial pos="0 0.015 0" mass="0.3" diaginertia="0.002 0.001 0.002"/>
+                  
+                  <!-- Joint 6 (Wrist 3) -->
+                  <body name="hand_link" pos="0 0.051 0" euler="1.57 0 0">
+                    <joint name="joint_6" type="hinge" axis="0 0 1" range="-2.57 2.57" damping="0.05"/>
+                    <geom name="hand" type="mesh" mesh="hand_mesh" material="joint_material"/>
+                    <inertial pos="0 0 0.01" mass="0.2" diaginertia="0.001 0.001 0.0005"/>
+                    
+                    <!-- Gripper attachment point -->
+                    <body name="gripper_base" pos="0 0 0.03">
+                      <geom name="gripper" type="mesh" mesh="gripper_mesh" material="gripper_material"/>
+                      <inertial pos="0 0 0.02" mass="0.2" diaginertia="0.001 0.001 0.0005"/>
+                      
+                      <!-- End effector site -->
+                      <site name="end_effector" pos="0 0 0.05" size="0.01" rgba="1 0 0 0.5"/>
+                      
+                      <!-- Gripper fingers (simplified) -->
+                      <body name="left_finger" pos="-0.02 0 0.04">
+                        <joint name="left_finger_joint" type="slide" axis="1 0 0" range="-0.02 0.02"/>
+                        <geom name="left_finger" type="box" size="0.005 0.01 0.02" material="gripper_material"/>
+                        <inertial pos="0 0 0" mass="0.05" diaginertia="0.0001 0.0001 0.0001"/>
+                      </body>
+                      
+                      <body name="right_finger" pos="0.02 0 0.04">
+                        <joint name="right_finger_joint" type="slide" axis="-1 0 0" range="-0.02 0.02"/>
+                        <geom name="right_finger" type="box" size="0.005 0.01 0.02" material="gripper_material"/>
+                        <inertial pos="0 0 0" mass="0.05" diaginertia="0.0001 0.0001 0.0001"/>
+                      </body>
+                    </body>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+    
+    <!-- Ground plane -->
+    <geom name="floor" pos="0 0 -0.1" size="2 2 0.05" type="box" rgba="0.8 0.8 0.8 1"/>
+  </worldbody>
+  
+  <actuator>
+    <!-- Main arm actuators -->
+    <motor name="motor_1" joint="joint_1" gear="200" ctrlrange="-1 1"/>
+    <motor name="motor_2" joint="joint_2" gear="200" ctrlrange="-1 1"/>
+    <motor name="motor_3" joint="joint_3" gear="200" ctrlrange="-1 1"/>
+    <motor name="motor_4" joint="joint_4" gear="100" ctrlrange="-1 1"/>
+    <motor name="motor_5" joint="joint_5" gear="100" ctrlrange="-1 1"/>
+    <motor name="motor_6" joint="joint_6" gear="100" ctrlrange="-1 1"/>
+    
+    <!-- Gripper actuators -->
+    <motor name="gripper_left" joint="left_finger_joint" gear="20" ctrlrange="-1 1"/>
+    <motor name="gripper_right" joint="right_finger_joint" gear="20" ctrlrange="-1 1"/>
+  </actuator>
+  
+  <sensor>
+    <!-- Joint position sensors -->
+    <jointpos name="joint1_pos" joint="joint_1"/>
+    <jointpos name="joint2_pos" joint="joint_2"/>
+    <jointpos name="joint3_pos" joint="joint_3"/>
+    <jointpos name="joint4_pos" joint="joint_4"/>
+    <jointpos name="joint5_pos" joint="joint_5"/>
+    <jointpos name="joint6_pos" joint="joint_6"/>
+    
+    <!-- End effector position sensor -->
+    <framepos name="end_effector_pos" objtype="site" objname="end_effector"/>
+    
+    <!-- Gripper sensors -->
+    <jointpos name="left_finger_pos" joint="left_finger_joint"/>
+    <jointpos name="right_finger_pos" joint="right_finger_joint"/>
+  </sensor>
+</mujoco>

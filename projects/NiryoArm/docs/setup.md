@@ -72,11 +72,32 @@ cp config/task_config.example.yaml config/task_config.yaml
 # Edit configurations as needed
 ```
 
-### 2. Download Models (if needed)
+### 2. 3D Mesh Assets
+
+This project now includes official STL and STEP files from the Niryo Ned2 robot:
+
+**Available Assets:**
+- **STL Files**: Located in `assets/meshes/niryo/stl/` - Ready for MuJoCo simulation
+- **STEP Files**: Located in `assets/meshes/niryo/step/` - CAD source files for reference
+
+**Mesh Files Include:**
+- Complete robot assembly (base, shoulder, arm, elbow, forearm, wrist, hand)
+- Multiple gripper variants (adaptive, custom, large)
+- Security housing components
+
+**Using the Meshes:**
 ```bash
-# If using external mesh files or models
-python scripts/download_assets.py
+# Use the basic geometric model (faster)
+python scripts/demo_basic.py --model models/niryo_arm.xml
+
+# Use the detailed STL mesh model (more realistic)
+python scripts/demo_basic.py --model models/niryo_arm_with_meshes.xml
 ```
+
+**Source Information:**
+- Repository: https://github.com/NiryoRobotics/ned2
+- License: CC0 1.0 Universal (Public Domain)
+- See `assets/meshes/niryo/README.md` for detailed documentation
 
 ### 3. Set Environment Variables
 ```bash
@@ -115,8 +136,44 @@ python scripts/train_agent.py --task reach --episodes 100
 
 ### 3. GUI Visualization
 ```bash
-# Open interactive viewer
+# Open interactive viewer with basic geometric model (faster)
 python scripts/visualize.py --model models/niryo_arm.xml
+
+# Open interactive viewer with detailed STL meshes (more realistic)
+python scripts/visualize.py --model models/niryo_arm_with_meshes.xml
+```
+
+## 🎯 Model Selection Guide
+
+The project includes two MuJoCo models for different use cases:
+
+### Basic Geometric Model (`niryo_arm.xml`)
+- **Use for**: Fast prototyping, RL training, computational efficiency
+- **Features**: Simple geometric shapes (cylinders, boxes)
+- **Advantages**: Fast simulation, low memory usage
+- **Best for**: Algorithm development, batch training
+
+### Detailed Mesh Model (`niryo_arm_with_meshes.xml`)
+- **Use for**: Realistic visualization, demos, validation
+- **Features**: Official Niryo STL meshes with accurate geometry
+- **Advantages**: Realistic appearance, accurate collision detection
+- **Best for**: Presentations, final testing, research validation
+
+### Performance Comparison
+| Aspect | Geometric Model | Mesh Model |
+|--------|-----------------|------------|
+| Simulation Speed | ⚡ Very Fast | 🐌 Moderate |
+| Visual Realism | 📦 Basic | 🎨 High |
+| Memory Usage | 💾 Low | 💾 High |
+| Collision Accuracy | ✅ Good | ✅ Excellent |
+
+### Choosing the Right Model
+```python
+# For RL training - use geometric model
+env = NiryoArmEnv(model_file="models/niryo_arm.xml")
+
+# For visualization/demos - use mesh model  
+env = NiryoArmEnv(model_file="models/niryo_arm_with_meshes.xml")
 ```
 
 ## 🔧 Development Setup

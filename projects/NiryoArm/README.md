@@ -30,7 +30,8 @@ NiryoArm/
 │   └── utils/              # Utility functions
 ├── 
 ├── models/                  # MuJoCo XML models
-│   ├── niryo_arm.xml       # Main arm model
+│   ├── niryo_arm.xml       # Basic geometric model (fast)
+│   ├── niryo_arm_with_meshes.xml # Detailed STL model (realistic)
 │   ├── workspace.xml       # Workspace environment
 │   └── objects/            # Manipulation objects
 ├── 
@@ -41,7 +42,7 @@ NiryoArm/
 ├── 
 ├── assets/                  # Media and resources
 │   ├── images/             # Screenshots, diagrams
-│   ├── meshes/             # 3D mesh files
+│   ├── meshes/             # 3D mesh files (STL/STEP from Niryo)
 │   └── textures/           # Texture files
 ├── 
 ├── docs/                    # Documentation
