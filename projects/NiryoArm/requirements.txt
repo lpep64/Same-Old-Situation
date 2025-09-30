@@ -1,0 +1,38 @@
+# Core dependencies
+mujoco>=3.0.0
+numpy>=1.21.0
+gymnasium>=0.29.0
+stable-baselines3>=2.0.0
+
+# Deep learning
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Robotics and planning
+robotics-toolbox-python>=1.0.0
+spatialmath-python>=1.0.0
+
+# Visualization and GUI
+matplotlib>=3.5.0
+opencv-python>=4.5.0
+glfw>=2.5.0
+PyOpenGL>=3.1.0
+
+# Configuration and data
+pyyaml>=6.0
+pandas>=1.3.0
+h5py>=3.6.0
+
+# Development and testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
+black>=22.0.0
+flake8>=5.0.0
+mypy>=1.0.0
+
+# Jupyter for development
+jupyter>=1.0.0
+ipywidgets>=8.0.0
+
+# Optional: DeepMind Control Suite
+dm-control>=1.0.0
