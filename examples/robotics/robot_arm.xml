@@ -1,0 +1,32 @@
+<mujoco model="robotic_arm">
+  <!-- Set compiler options: here angles are specified in degrees -->
+  <compiler angle="degree" />
+
+  <!-- Default settings: all geoms default to this color unless overridden -->
+  <default>
+    <geom rgba="0.8 0.6 0.4 1"/>
+  </default>
+
+  <!-- World definition -->
+  <worldbody>
+    <!-- Base: fixed to the world -->
+    <body name="base" pos="0 0 0">
+      <!-- Base geometry: a small box -->
+      <geom type="box" size="0.1 0.1 0.1" rgba="0.3 0.3 0.3 1"/>
+      
+      <!-- Link: attached to the base via a hinge joint -->
+      <body name="link1" pos="0 0 0.1">
+        <!-- Hinge joint rotates about the vertical (Z) axis -->
+        <joint name="joint1" type="hinge" axis="0 0 1" pos="0 0 0"/>
+        <!-- Link geometry: a capsule from the joint to the end of the arm -->
+        <geom type="capsule" fromto="0 0 0 0.3 0 0" size="0.05"/>
+      </body>
+    </body>
+  </worldbody>
+
+  <!-- Actuator to control the joint -->
+  <actuator>
+    <!-- A position actuator controlling 'joint1' with a proportional gain -->
+    <position name="act1" joint="joint1" kp="100"/>
+  </actuator>
+</mujoco>
