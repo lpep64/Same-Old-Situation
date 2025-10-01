@@ -1,43 +1,39 @@
 #!/usr/bin/env python3
-"""
-MuJoCo Panda Robot Spinning Simulation
-
-This script creates a simulation with a Franka Emika Panda robot that:
-- Spins joint1 and joint7 continuously
-- Opens and closes the grippers in a rhythmic pattern
-- Provides visual feedback through the MuJoCo viewer
-
-Controls:
-- Press SPACE to pause/resume the simulation
-- Press ESC to exit
-- Press R to reset to home position
-"""
-
 import mujoco
 import mujoco.viewer
 import numpy as np
 import time
-import math
-
+import os
 
 class PandaSpinningController:
-    def __init__(self, model_path="models/robots/franka_emika_panda/panda.xml"):
+    def __init__(self, model_path="../../models/robots/franka_emika_panda/panda.xml"):
         """Initialize the Panda robot controller."""
-        # Load the MuJoCo model
-        self.model = mujoco.MjModel.from_xml_path(model_path)
-        self.data = mujoco.MjData(self.model)
+        # Check if model file exists
+        if not os.path.exists(model_path):
+            raise FileNotFoundError(f"Robot model not found at: {model_path}")
+        
+        try:
+            # Load the MuJoCo model
+            self.model = mujoco.MjModel.from_xml_path(model_path)
+            self.data = mujoco.MjData(self.model)
+        except Exception as e:
+            raise RuntimeError(f"Failed to load robot model: {e}")
         
         # Get joint and actuator indices
         self.joint_names = ['joint1', 'joint2', 'joint3', 'joint4', 'joint5', 'joint6', 'joint7']
-        self.joint_indices = {name: mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_JOINT, name) 
-                             for name in self.joint_names}
         
-        # Gripper actuator index (actuator8 controls the gripper)
-        self.gripper_actuator_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_ACTUATOR, "actuator8")
-        
-        # Actuator indices for arm joints
-        self.actuator_indices = {f'joint{i+1}': mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_ACTUATOR, f"actuator{i+1}") 
-                                for i in range(7)}
+        try:
+            self.joint_indices = {name: mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_JOINT, name) 
+                                 for name in self.joint_names}
+            
+            # Gripper actuator index (actuator8 controls the gripper)
+            self.gripper_actuator_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_ACTUATOR, "actuator8")
+            
+            # Actuator indices for arm joints
+            self.actuator_indices = {name: mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_ACTUATOR, f"actuator{i+1}") 
+                                    for i, name in enumerate(self.joint_names)}
+        except Exception as e:
+            raise RuntimeError(f"Failed to find robot joints/actuators: {e}")
         
         # Control parameters
         self.time = 0.0
@@ -53,8 +49,7 @@ class PandaSpinningController:
         
         print("Panda Spinning Controller initialized!")
         print("Spinning joints:", self.spinning_joints)
-        print("Press SPACE to pause/resume, R to reset, ESC to exit")
-
+    
     def reset_to_home(self):
         """Reset the robot to home position."""
         for i, joint_name in enumerate(self.joint_names):
@@ -81,17 +76,11 @@ class PandaSpinningController:
             
             if joint_name == 'joint1':
                 # Spin joint1 continuously
-                target_angle = self.spin_speed * self.time
-                # Keep within joint limits
-                target_angle = np.clip(target_angle % (2 * np.pi), -2.8973, 2.8973)
-                self.data.ctrl[actuator_id] = target_angle
+                self.data.ctrl[actuator_id] = self.spin_speed * self.time
                 
             elif joint_name == 'joint7':
                 # Spin joint7 in opposite direction
-                target_angle = -self.spin_speed * self.time
-                # Keep within joint limits
-                target_angle = np.clip(target_angle % (2 * np.pi), -2.8973, 2.8973)
-                self.data.ctrl[actuator_id] = target_angle
+                self.data.ctrl[actuator_id] = -self.spin_speed * self.time
         
         # Control gripper - oscillate between open and closed
         gripper_phase = 2 * np.pi * self.gripper_frequency * self.time
@@ -105,22 +94,9 @@ class PandaSpinningController:
             home_index = self.joint_names.index(joint_name)
             self.data.ctrl[actuator_id] = self.home_qpos[home_index]
 
-    def print_status(self):
-        """Print current robot status."""
-        print(f"\nTime: {self.time:.2f}s")
-        print("Joint Positions:")
-        for joint_name in self.joint_names:
-            joint_id = self.joint_indices[joint_name]
-            angle_deg = np.degrees(self.data.qpos[joint_id])
-            print(f"  {joint_name}: {angle_deg:.1f}°")
-        
-        gripper_pos = self.data.ctrl[self.gripper_actuator_id]
-        gripper_percent = (gripper_pos / 255.0) * 100
-        print(f"  Gripper: {gripper_percent:.1f}% closed")
 
     def run_simulation(self):
         """Run the interactive simulation."""
-        paused = False
         last_status_time = 0
         
         with mujoco.viewer.launch_passive(self.model, self.data) as viewer:
@@ -128,9 +104,7 @@ class PandaSpinningController:
             viewer.cam.distance = 2.5
             viewer.cam.elevation = -30
             viewer.cam.azimuth = 45
-            viewer.cam.lookat[0] = 0.0
-            viewer.cam.lookat[1] = 0.0
-            viewer.cam.lookat[2] = 0.5
+            viewer.cam.lookat[:] = [0.0, 0.0, 0.5]
             
             print("MuJoCo Viewer launched!")
             print("The robot will start spinning joint1 and joint7, and opening/closing grippers")
@@ -139,17 +113,9 @@ class PandaSpinningController:
             while viewer.is_running():
                 step_start = time.time()
                 
-                if not paused:
-                    # Update control
-                    self.update_control(self.model.opt.timestep)
-                    
-                    # Step the simulation
-                    mujoco.mj_step(self.model, self.data)
-                
-                # Print status every 3 seconds
-                if self.time - last_status_time >= 3.0:
-                    self.print_status()
-                    last_status_time = self.time
+                # Update control and step simulation
+                self.update_control(self.model.opt.timestep)
+                mujoco.mj_step(self.model, self.data)
                 
                 # Sync with real-time
                 viewer.sync()
@@ -163,13 +129,26 @@ class PandaSpinningController:
 def main():
     """Main function to run the simulation."""
     try:
+        print("Attempting to load Panda robot...")
         controller = PandaSpinningController()
+        print("Robot loaded successfully! Starting simulation...")
         controller.run_simulation()
+    except FileNotFoundError as e:
+        print(f"\n❌ Robot model not found: {e}")
+        print("Please ensure the Panda robot model exists at the specified path.")
+        return 1
+    except RuntimeError as e:
+        print(f"\n❌ Runtime error: {e}")
+        print("The robot model may be incompatible or corrupted.")
+        return 1
     except KeyboardInterrupt:
-        print("\nSimulation interrupted by user")
+        print("\n✅ Simulation interrupted by user")
+        return 0
     except Exception as e:
-        print(f"Error: {e}")
-        print("Make sure the Panda robot model exists at 'models/robots/franka_emika_panda/panda.xml'")
+        print(f"\n❌ Unexpected error: {e}")
+        return 1
+    
+    return 0
 
 
 if __name__ == "__main__":
