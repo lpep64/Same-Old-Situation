@@ -26,10 +26,10 @@ def test_simple_scene():
     print("=" * 50)
     
     # Save for inspection
-    with open("test_simple.xml", "w") as f:
+    with open("../xmls/generated/test_simple.xml", "w") as f:
         f.write(xml_content)
     
-    print("Saved to test_simple.xml")
+    print("Saved to xmls/generated/test_simple.xml")
 
 if __name__ == "__main__":
     test_simple_scene()
