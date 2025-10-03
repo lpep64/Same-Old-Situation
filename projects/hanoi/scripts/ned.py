@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Panda Hanoi
+ned simple
 """
 
 import mujoco
@@ -16,7 +16,6 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # Import our new XML builder
 from utils.mujoco_xml_builder import create_scene_with_robot, MuJoCoXMLBuilder
 
-
 class NedManualController:
     """Manual controller for the NED2 robot with direct joint position control."""
     
@@ -25,41 +24,7 @@ class NedManualController:
         self.model = model
         self.data = data
         
-        # Get joint indices for NED2 (6 joints)
-        self.joint_names = ['joint_1', 'joint_2', 'joint_3', 'joint_4', 'joint_5', 'joint_6']
-        
-        try:
-            self.joint_indices = {name: mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_JOINT, name) 
-                                 for name in self.joint_names}
-        except Exception as e:
-            raise RuntimeError(f"Failed to find robot joints: {e}")
-        
-        # Control parameters
-        self.time = 0.0
-        
-        # Home position for NED2 (6 joints, all zeros)
-        self.home_qpos = np.array([0, 0, 0, 0, 0, 0])
-        
-        # Reset to home position
-        self.reset_to_home()
-        
         print("NED2 Manual Controller initialized!")
-    
-    def reset_to_home(self):
-        """Reset the robot to home position."""
-        for i, joint_name in enumerate(self.joint_names):
-            joint_id = self.joint_indices[joint_name]
-            self.data.qpos[joint_id] = self.home_qpos[i]
-        
-        mujoco.mj_forward(self.model, self.data)
-
-    def update_control(self, dt):
-        """Passive simulation - no control, just let physics run."""
-        self.time += dt
-        # No control - just passive simulation
-            
-
-
 
 def create_custom_scene_builder(robot_path: str) -> MuJoCoXMLBuilder:
     """Create a custom scene using the XML builder system.
@@ -169,7 +134,7 @@ def main():
     """Main function to run the unified simulation using URDF."""
     try:
         # Define robot URDF path
-        robot_path = "ned2.urdf"
+        robot_path = "..\\..\\..\\models\\robots\\niryo_ned2\\ned2.xml"
         
         if not os.path.exists(robot_path):
             raise FileNotFoundError(f"Robot URDF not found at: {robot_path}")
@@ -195,9 +160,6 @@ def main():
             # Main simulation loop
             while viewer.is_running():
                 step_start = time.perf_counter()
-                
-                # Update robot control
-                controller.update_control(model.opt.timestep)
                 
                 # Physics step
                 mujoco.mj_step(model, data)
