@@ -5,7 +5,7 @@ Panda Hanoi - Baseline Solver
 This script orchestrates the solution to the Tower of Hanoi problem:
 1.  Generates the optimal abstract move sequence using `hanoi_logic`.
 2.  Loads the MuJoCo simulation environment.
-3.  Initializes the professional `RobotController`.
+3.  Initializes the professional `NiryoRobotController`.
 4.  Commands the controller to execute each move in the sequence.
 """
 
@@ -19,7 +19,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import project modules
 from hanoi_logic import solve_hanoi
-from robot_controller import RobotController
+from niryo_robot_controller import NiryoRobotController
 
 def main():
     """Main function to run the baseline solver."""
@@ -32,7 +32,7 @@ def main():
         # --- 2. Load the MuJoCo Environment ---
         script_dir = os.path.dirname(os.path.abspath(__file__))
         project_root = os.path.dirname(script_dir)
-        scene_xml_path = os.path.join(project_root, "xmls", "generated", "panda_hanoi_scene.xml")
+        scene_xml_path = os.path.join(project_root, "xmls", "generated", "niryo_hanoi_scene.xml")
         scene_xml_path = os.path.normpath(scene_xml_path)
         
         if not os.path.exists(scene_xml_path):
@@ -43,7 +43,7 @@ def main():
         data = mujoco.MjData(model)
         
         # --- 3. Initialize Controller and Execute Plan ---
-        controller = RobotController(model, data, n_disks=n_disks)
+        controller = NiryoRobotController(model, data, n_disks=n_disks)
         
         with mujoco.viewer.launch_passive(model, data) as viewer:
 
