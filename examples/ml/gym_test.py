@@ -7,7 +7,7 @@ import time
 from stable_baselines3 import PPO
 from stable_baselines3.common.env_checker import check_env
 
-XML_MODEL_PATH = "models/franka_fr3/scene.xml"
+XML_MODEL_PATH = "../../models/robots/franka_fr3/scene.xml"
 
 class CustomRobotArmEnv(gym.Env):
     metadata = {'render_modes': ['human']}

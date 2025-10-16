@@ -1,0 +1,27 @@
+<!-- Studio lighting setup for MuJoCo scenes -->
+<!-- Provides professional lighting for robot demonstrations -->
+
+<mujoco model="studio_lighting_component">
+  <worldbody>
+    <!-- Main key light -->
+    <light name="key_light" pos="2 2 3" 
+           dir="-0.5 -0.5 -1" directional="true"
+           ambient="0.3 0.3 0.3" 
+           diffuse="0.8 0.8 0.8" 
+           specular="0.5 0.5 0.5"/>
+    
+    <!-- Fill light -->
+    <light name="fill_light" pos="-2 2 2" 
+           dir="0.5 -0.5 -1" directional="true"
+           ambient="0.1 0.1 0.1" 
+           diffuse="0.4 0.4 0.4" 
+           specular="0.2 0.2 0.2"/>
+    
+    <!-- Back light for rim lighting -->
+    <light name="back_light" pos="0 -3 2" 
+           dir="0 1 -0.3" directional="true"
+           ambient="0.05 0.05 0.1" 
+           diffuse="0.3 0.3 0.4" 
+           specular="0.3 0.3 0.4"/>
+  </worldbody>
+</mujoco>

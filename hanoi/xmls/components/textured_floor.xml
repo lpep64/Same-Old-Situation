@@ -1,0 +1,23 @@
+<!-- Simple textured floor component for MuJoCo scenes -->
+<!-- This demonstrates how to create reusable scene components -->
+
+<mujoco model="textured_floor_component">
+  <asset>
+    <!-- Checker pattern texture -->
+    <texture name="floor_checker" type="2d" builtin="checker" 
+             rgb1="0.4 0.4 0.4" rgb2="0.6 0.6 0.6" 
+             width="512" height="512"/>
+    
+    <!-- Floor material -->
+    <material name="floor_material" texture="floor_checker" 
+              texrepeat="10 10" reflectance="0.1"/>
+  </asset>
+
+  <worldbody>
+    <!-- Floor geometry -->
+    <geom name="floor" type="box" 
+          pos="0 0 -0.05" 
+          size="5 5 0.05" 
+          material="floor_material"/>
+  </worldbody>
+</mujoco>

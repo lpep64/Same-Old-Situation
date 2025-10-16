@@ -1,0 +1,7 @@
+<mujoco model="test_scene">
+  <compiler angle="radian"/>
+  <worldbody>
+    <geom name="floor" pos="0 0 -0.1" size="2 2 0.05" type="box"/>
+    <light name="test_light" pos="0 0 2" directional="true"/>
+  </worldbody>
+</mujoco>
