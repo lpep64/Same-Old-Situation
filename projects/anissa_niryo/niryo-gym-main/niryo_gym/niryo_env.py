@@ -85,7 +85,9 @@ class BaseNiryoEnv(MujocoRobotEnv):
         self.distance_threshold = distance_threshold
         self.reward_type = reward_type
 
-        model_path = os.path.join(os.path.dirname(__file__), f"niryo_robot/mjcf/ned2/ned2{control_type}.xml")
+        # Updated path to use official models directory
+        models_base = os.path.join(os.path.dirname(__file__), "../../../models/robots/Arms/niryo_ned2")
+        model_path = os.path.join(models_base, f"ned2{control_type}.xml")
         n_actions = (3 + (not block_gripper)) if control_type == "mocap" else 8
         super().__init__(n_actions=n_actions, model_path=model_path, **kwargs)
 
