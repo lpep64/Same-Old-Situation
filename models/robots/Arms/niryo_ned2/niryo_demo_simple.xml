@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mujoco model="Simple Niryo Demo">
+    <compiler angle="radian" coordinate="local" meshdir="niryo-gym-main/niryo_gym/niryo_robot/meshes/ned2/stl"/>
+    
+    <option timestep="0.002" gravity="0 0 -9.81">
+        <flag warmstart="enable"/>
+    </option>
+
+    <visual>
+        <headlight diffuse="0.6 0.6 0.6" ambient="0.3 0.3 0.3" specular="0.9 0.9 0.9"/>
+        <rgba haze="0.15 0.25 0.35 1"/>
+        <global azimuth="120" elevation="-20"/>
+    </visual>
+
+    <asset>
+        <!-- Materials -->
+        <material name="floor_mat" rgba="0.2 0.3 0.4 1" specular="0.3" shininess="0.5"/>
+        <material name="table_mat" rgba="0.8 0.6 0.4 1" specular="0.3" shininess="0.5"/>
+        <material name="conveyor_mat" rgba="0.15 0.15 0.17 1" specular="0.1" shininess="0.05"/>
+        <material name="conveyor_frame" rgba="0.08 0.08 0.09 1" specular="0.2" shininess="0.3"/>
+        <material name="conveyor_trim" rgba="0.2 0.2 0.22 1" specular="0.3" shininess="0.4"/>
+        <material name="conveyor_blue" rgba="0.18 0.45 0.87 1" specular="0.4" shininess="0.4"/>
+        <material name="button_green" rgba="0.1 0.6 0.2 1" specular="0.2" shininess="0.2"/>
+        <material name="button_red" rgba="0.7 0.05 0.05 1" specular="0.2" shininess="0.2"/>
+        <material name="conveyor_metal" rgba="0.4 0.4 0.4 1" specular="0.5" shininess="0.5"/>
+        <material name="robot_grey" rgba="0.356 0.361 0.376 1.0" specular="0.3" shininess="0.3"/>
+        <material name="robot_blue" rgba="0.086 0.506 0.767 1.0" specular="0.3" shininess="0.3"/>
+        <material name="robot_dark" rgba="0.15 0.15 0.15 1.0" specular="0.3" shininess="0.3"/>
+
+        <!-- Robot meshes -->
+        <mesh name="base_link" file="base_link.stl"/>
+        <mesh name="shoulder_link" file="shoulder_link.stl"/>
+        <mesh name="arm_link" file="arm_link.stl"/>
+        <mesh name="elbow_link" file="elbow_link.stl"/>
+        <mesh name="forearm_link" file="forearm_link.stl"/>
+        <mesh name="wrist_link" file="wrist_link.stl"/>
+        <mesh name="hand_link" file="hand_link.stl"/>
+        <mesh name="base_gripper" file="base_gripper_1.STL"/>
+        <mesh name="r_gripper_finger" file="mors_1.STL"/>
+        <mesh name="l_gripper_finger" file="mors_2.STL"/>
+    </asset>
+
+    <default>
+        <geom solimp="0.9 0.95 0.001" solref="0.02 1" condim="3" contype="1" conaffinity="1" friction="1 0.1 0.1"/>
+        <joint armature="0.1" damping="10.0" frictionloss="0.1"/>
+    </default>
+
+    <worldbody>
+        <!-- Lighting -->
+        <light name="spotlight" mode="targetbodycom" target="robot_base" 
+               directional="false" diffuse="0.8 0.8 0.8" specular="0.3 0.3 0.3" 
+               pos="1 1 4" cutoff="30"/>
+        
+        <!-- Floor -->
+        <geom name="floor" size="3 3 0.1" pos="0 0 -0.1" type="box" material="floor_mat"/>
+        
+        <!-- Table -->
+        <body name="table" pos="0 0 0.4">
+            <geom name="table_surface" size="0.8 0.6 0.05" type="box" material="table_mat"/>
+            <geom name="table_leg1" size="0.04 0.04 0.4" pos="0.7 0.5 -0.4" type="box" material="table_mat"/>
+            <geom name="table_leg2" size="0.04 0.04 0.4" pos="0.7 -0.5 -0.4" type="box" material="table_mat"/>
+            <geom name="table_leg3" size="0.04 0.04 0.4" pos="-0.7 0.5 -0.4" type="box" material="table_mat"/>
+            <geom name="table_leg4" size="0.04 0.04 0.4" pos="-0.7 -0.5 -0.4" type="box" material="table_mat"/>
+        </body>
+
+        <!-- Small Conveyor Belt -->
+        <body name="conveyor" pos="-0.1 0.35 0.47" quat="1 0 0 0">
+            <!-- Base rails resting on table -->
+            <geom name="conveyor_base_left" type="box" size="0.34 0.015 0.012" pos="0 0.065 -0.012" material="conveyor_frame"/>
+            <geom name="conveyor_base_right" type="box" size="0.34 0.015 0.012" pos="0 -0.065 -0.012" material="conveyor_frame"/>
+            <geom name="conveyor_cross_front" type="box" size="0.012 0.07 0.012" pos="0.33 0 -0.012" material="conveyor_frame"/>
+            <geom name="conveyor_cross_back" type="box" size="0.012 0.07 0.012" pos="-0.33 0 -0.012" material="conveyor_frame"/>
+
+            <!-- Uprights and top supports -->
+            <geom name="conveyor_leg_front_left" type="box" size="0.01 0.01 0.065" pos="0.3 0.06 0.05" material="conveyor_frame"/>
+            <geom name="conveyor_leg_front_right" type="box" size="0.01 0.01 0.065" pos="0.3 -0.06 0.05" material="conveyor_frame"/>
+            <geom name="conveyor_leg_back_left" type="box" size="0.01 0.01 0.065" pos="-0.3 0.06 0.05" material="conveyor_frame"/>
+            <geom name="conveyor_leg_back_right" type="box" size="0.01 0.01 0.065" pos="-0.3 -0.06 0.05" material="conveyor_frame"/>
+            <geom name="conveyor_top_left" type="box" size="0.32 0.01 0.006" pos="0 0.06 0.12" material="conveyor_trim"/>
+            <geom name="conveyor_top_right" type="box" size="0.32 0.01 0.006" pos="0 -0.06 0.12" material="conveyor_trim"/>
+
+            <!-- Belt deck and guides -->
+            <geom name="conveyor_deck" type="box" size="0.32 0.065 0.004" pos="0 0 0.12" material="conveyor_mat"/>
+            <geom name="conveyor_edge_left" type="box" size="0.32 0.003 0.008" pos="0 0.068 0.123" material="conveyor_trim"/>
+            <geom name="conveyor_edge_right" type="box" size="0.32 0.003 0.008" pos="0 -0.068 0.123" material="conveyor_trim"/>
+            <geom name="conveyor_panel_left" type="box" size="0.32 0.005 0.004" pos="0 0.073 0.127" material="conveyor_metal"/>
+            <geom name="conveyor_panel_right" type="box" size="0.32 0.005 0.004" pos="0 -0.073 0.127" material="conveyor_metal"/>
+
+            <!-- Roller assemblies -->
+            <geom name="conveyor_head_block" type="box" size="0.015 0.075 0.018" pos="0.33 0 0.118" material="conveyor_blue"/>
+            <geom name="conveyor_tail_block" type="box" size="0.015 0.075 0.018" pos="-0.33 0 0.118" material="conveyor_blue"/>
+            <geom name="conveyor_head_roller" type="cylinder" size="0.065 0.011" pos="0.315 0 0.12" material="conveyor_metal"/>
+            <geom name="conveyor_tail_roller" type="cylinder" size="0.065 0.011" pos="-0.315 0 0.12" material="conveyor_metal"/>
+
+            <!-- Motor housing -->
+            <geom name="conveyor_motor_mount" type="box" size="0.045 0.025 0.018" pos="-0.38 0 0.09" material="conveyor_blue"/>
+            <geom name="conveyor_motor_cap" type="cylinder" size="0.018 0.016" pos="-0.42 0 0.09" material="conveyor_metal"/>
+
+            <!-- Button panel angled toward robot -->
+            <body name="button_panel" pos="-0.1 -0.14 0.07" quat="0.9396926 0 0 0.3420201">
+                <geom name="panel_stem" type="box" size="0.015 0.015 0.06" pos="0 0 -0.045" material="conveyor_frame"/>
+                <geom name="panel_face" type="box" size="0.05 0.014 0.004" pos="0 0 0" material="conveyor_trim"/>
+                <geom name="panel_border" type="box" size="0.052 0.016 0.002" pos="0 0 -0.002" material="conveyor_frame"/>
+                <geom name="button_green" type="cylinder" size="0.012 0.004" pos="-0.018 0 0.01" material="button_green"/>
+                <geom name="button_red" type="cylinder" size="0.012 0.004" pos="0.018 0 0.01" material="button_red"/>
+            </body>
+
+            <!-- Small items on belt -->
+            <body name="conveyor_block_blue" pos="0.12 0.02 0.125">
+                <geom name="conveyor_block_geom" type="box" size="0.018 0.012 0.005" material="conveyor_blue"/>
+            </body>
+        </body>
+
+        <!-- Pick-and-place target block -->
+        <body name="conveyor_block_red" pos="-0.20 0.35 0.60">
+            <joint name="red_block_free" type="free"/>
+            <geom name="conveyor_block_red_geom" type="box" size="0.016 0.016 0.006" density="1200" material="button_red"/>
+        </body>
+
+        <!-- Niryo Robot with Position Control -->
+        <body name="robot_base" pos="-0.3 0 0.45">
+            <geom pos="0 0 0" quat="0.707107 -0.707107 0 0" type="mesh" mesh="base_link" 
+                  material="robot_grey" mass="0.71142"/>
+            
+            <!-- Shoulder Joint -->
+            <body name="shoulder_link" pos="0 0 0.1013">
+                <inertial pos="-0.031951 0.0080419 0.030675" quat="0.500342 0.499382 0.516882 0.482813" 
+                          mass="0.35056" diaginertia="0.000326411 0.000300927 0.000238682"/>
+                <joint name="shoulder_joint" pos="0 0 0" axis="0 0 1" range="-3.14 3.14"/>
+                <geom quat="0.707107 0 0 -0.707107" type="mesh" mesh="shoulder_link" material="robot_blue"/>
+                
+                <!-- Arm Joint -->
+                <body name="arm_link" pos="0 0 0.065" quat="0.707107 0.707107 0 0">
+                    <inertial pos="-0.00096976 0.086432 0.0038832" quat="0.690493 0.722981 0.0220291 -0.00569833" 
+                              mass="1.0838" diaginertia="0.00819788 0.00792912 0.0011765"/>
+                    <joint name="arm_joint" pos="0 0 0" axis="0 0 1" range="-1.8 0.6"/>
+                    <geom pos="0 0 0" quat="0 0 1 0" type="mesh" mesh="arm_link" material="robot_grey"/>
+                    
+                    <!-- Elbow Joint -->
+                    <body name="elbow_link" pos="0.012 0.221 0" quat="0.707107 0 0 0.707107">
+                        <inertial pos="-0.019703 0.037336 -1.7431e-09" quat="-0.0467018 0.705563 0.0467058 0.705563" 
+                                  mass="0.22126" diaginertia="0.00022753 0.000210147 0.000115903"/>
+                        <joint name="elbow_joint" pos="0 0 0" axis="0 0 1" range="-1.34 1.57"/>
+                        <geom quat="0 0.707107 0.707107 0" type="mesh" mesh="elbow_link" material="robot_blue"/>
+                        
+                        <!-- Forearm Joint -->
+                        <body name="forearm_link" pos="0.0325 -0.065 0" quat="0.707107 0.707107 0 0">
+                            <inertial pos="-0.0049532 7.8351e-06 0.08106" quat="0.705459 -0.041804 -0.0416797 0.706288" 
+                                      mass="0.35686" diaginertia="0.0014781 0.00138253 0.000221016"/>
+                            <joint name="forearm_joint" pos="0 0 0" axis="0 0 1" range="-2.09 2.09"/>
+                            <geom quat="0.707107 0 0 -0.707107" type="mesh" mesh="forearm_link" material="robot_blue"/>
+                            
+                            <!-- Wrist Joint -->
+                            <body name="wrist_link" pos="0 0 0.17" quat="0.707107 -0.707107 0 0">
+                                <inertial pos="-0.0162768 0.0351379 0" quat="0.618477 0.618477 0.342763 0.342763" 
+                                          mass="0.23495" diaginertia="0.00156403 0.00156324 0.00150233"/>
+                                <joint name="wrist_joint" pos="0 0 0" axis="0 0 1" range="-1.92 1.92"/>
+                                <geom quat="0.707107 0 0 -0.707107" type="mesh" mesh="wrist_link" material="robot_grey"/>
+                                
+                                <!-- Hand Joint -->
+                                <body name="hand_link" pos="0.00925 -0.0197 0" quat="0.707107 0.707107 0 0">
+                                    <inertial pos="-0.00051755 0.0029705 0.0115341" quat="0.418011 0.906052 0.0275832 0.0597875" 
+                                              mass="0.0080027" diaginertia="0.00150187 0.00150187 0.001501"/>
+                                    <joint name="hand_joint" pos="0 0 0" axis="0 0 1" range="-2.53 2.53"/>
+                                    <geom quat="0.707107 0 0 -0.707107" type="mesh" mesh="hand_link" material="robot_grey"/>
+                                    
+                                    <!-- Gripper Base -->
+                                    <body name="base_gripper" pos="-0.007 0 0.0315" quat="0.707107 -0.707107 0 0">
+                                        <geom type="mesh" mesh="base_gripper" material="robot_blue"/>
+                                    </body>
+                                    
+                                    <!-- Right Gripper Finger -->
+                                    <body name="r_gripper_finger" pos="0.00755 0.0096137 0.1111" quat="1 1.8366e-06 0 0">
+                                        <inertial pos="-0.0049739 0.0067393 -0.023929" quat="0.703927 0.0215488 -0.114093 0.700718" 
+                                                  mass="0.067248" diaginertia="1.33992e-06 1.19147e-06 3.87144e-07"/>
+                                        <joint name="r_gripper_joint" pos="0 0 0" axis="0 1 0" type="slide" range="-0.01 0.01"/>
+                                        <geom type="mesh" mesh="r_gripper_finger" material="robot_dark"/>
+                                    </body>
+                                    
+                                    <!-- Left Gripper Finger -->
+                                    <body name="l_gripper_finger" pos="0.00755 -0.011066 0.1111" quat="1 1.8366e-06 0 0">
+                                        <inertial pos="-0.0049739 -0.0067393 -0.023929" quat="0.700718 -0.114093 0.0215488 0.703927" 
+                                                  mass="0.067248" diaginertia="1.33992e-06 1.19147e-06 3.87144e-07"/>
+                                        <joint name="l_gripper_joint" pos="0 0 0" axis="0 -1 0" type="slide" range="-0.01 0.01"/>
+                                        <geom type="mesh" mesh="l_gripper_finger" material="robot_dark"/>
+                                    </body>
+                                    
+                                    <!-- End effector site -->
+                                    <site name="end_effector" pos="0 0 0.1" size="0.01" rgba="1 0 0 1"/>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </worldbody>
+
+    <!-- Position actuators - these should work with MuJoCo viewer controls -->
+    <actuator>
+        <position name="shoulder_pos" joint="shoulder_joint" kp="500" kv="50" ctrlrange="-3.14 3.14"/>
+        <position name="arm_pos" joint="arm_joint" kp="500" kv="50" ctrlrange="-1.8 0.6"/>
+        <position name="elbow_pos" joint="elbow_joint" kp="400" kv="40" ctrlrange="-1.34 1.57"/>
+        <position name="forearm_pos" joint="forearm_joint" kp="400" kv="40" ctrlrange="-2.09 2.09"/>
+        <position name="wrist_pos" joint="wrist_joint" kp="300" kv="30" ctrlrange="-1.92 1.92"/>
+        <position name="hand_pos" joint="hand_joint" kp="300" kv="30" ctrlrange="-2.53 2.53"/>
+        <position name="r_gripper_pos" joint="r_gripper_joint" kp="100" kv="10" ctrlrange="-0.01 0.01"/>
+        <position name="l_gripper_pos" joint="l_gripper_joint" kp="100" kv="10" ctrlrange="-0.01 0.01"/>
+    </actuator>
+
+    <keyframe>
+        <key name="home" qpos="0 -0.5 1.0 0 0 0 0 0"/>
+        <key name="ready" qpos="0 0 1.5 0 -1.5 0 0 0"/>
+        <key name="reach" qpos="0 -1.2 1.8 0.5 -0.5 0 0 0"/>
+        <key name="grip" qpos="0 -0.5 1.0 0 0 0 0.008 -0.008"/>
+    </keyframe>
+</mujoco>

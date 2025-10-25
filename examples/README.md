@@ -1,13 +1,78 @@
-# MuJoCo Examples
+# MuJoCo Examples & Learning Resources
 
-This directory contains comprehensive examples and demonstrations for MuJoCo physics simulation.
+This directory contains comprehensive examples, tutorials, and testing resources for MuJoCo physics simulation and robotics.
 
 ## 📁 Directory Structure
 
 ### `basic/` - Fundamental Examples
-Core physics tests and basic functionality demonstrations:
-- `basic_tests.py` - Comprehensive test suite for physics verification
-- `advanced_physics.py` - Advanced physics demonstrations
+- Core MuJoCo functionality demonstrations
+- Physics simulation basics
+- Simple robot models and interactions
+
+### `robotics/` - Robot-Specific Examples  
+- Examples for specific robot platforms
+- Robot arm demonstrations
+- Locomotion examples
+- End-effector control
+
+### `machine_learning/` - AI/ML Integration
+- Reinforcement learning examples
+- Neural network training
+- Policy optimization
+- Imitation learning
+- Combined examples from previous demos/ directory
+
+### `tutorial/` - Learning Path
+- Step-by-step tutorials
+- Progressive complexity examples
+- Documented learning materials
+
+### `gui/` - Graphical Interface Examples
+- Interactive demonstrations
+- Viewer customization
+- User interface examples
+
+### `tools/` - Utilities & Tools
+- Model conversion utilities
+- Analysis scripts
+- Debugging tools
+- Performance benchmarks
+
+### `testing/` - Validation & Testing
+- Unit tests for core functionality
+- Regression tests
+- Performance benchmarks
+- Model validation scripts
+- Consolidated from previous test/ directory
+
+## 🚀 Getting Started
+
+1. **New to MuJoCo?** Start with `tutorial/`
+2. **Specific robot platform?** Check `robotics/`
+3. **AI/ML applications?** Explore `machine_learning/`
+4. **Need debugging tools?** Look in `tools/`
+
+## 📖 Learning Path Recommendation
+
+1. `tutorial/` - Learn MuJoCo basics
+2. `basic/` - Understand core concepts
+3. `robotics/` - Apply to specific robots
+4. `machine_learning/` - Advanced AI integration
+5. `tools/` - Optimize and debug
+
+## 🔗 Related Directories
+
+- `../models/` - Official robot and environment models
+- `../projects/` - User project implementations
+- `../controllers/` - Shared control algorithms
+
+## 📝 Contributing
+
+When adding new examples:
+- Place in the most appropriate subdirectory
+- Include clear documentation
+- Add requirements if dependencies are needed
+- Follow the existing code style
 - Basic model loading and simulation examples
 
 ### `gui/` - Interactive Demonstrations  

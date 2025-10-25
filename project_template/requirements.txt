@@ -1,0 +1,25 @@
+# Project Dependencies
+# Add your Python dependencies here
+
+# Core MuJoCo requirements (usually already satisfied)
+mujoco>=3.0.0
+numpy>=1.20.0
+
+# Common additional dependencies for robotics projects
+# scipy>=1.7.0
+# matplotlib>=3.5.0
+# opencv-python>=4.5.0
+# gymnasium>=0.26.0
+
+# Machine learning dependencies (uncomment as needed)
+# torch>=1.11.0
+# tensorflow>=2.8.0
+# stable-baselines3>=1.5.0
+
+# Control and optimization
+# cvxpy>=1.2.0
+# casadi>=3.5.0
+
+# Visualization and GUI
+# pygame>=2.1.0
+# pyvista>=0.35.0
