@@ -32,11 +32,12 @@ def main():
         # --- 2. Load the MuJoCo Environment ---
         script_dir = os.path.dirname(os.path.abspath(__file__))
         project_root = os.path.dirname(script_dir)
-        scene_xml_path = os.path.join(project_root, "xmls", "generated", "niryo_hanoi_scene.xml")
+        # Prefer the checked-in scene XML under project xmls/ directory.
+        scene_xml_path = os.path.join(project_root, "xmls", "niryo_hanoi_cube_scene.xml")
         scene_xml_path = os.path.normpath(scene_xml_path)
-        
+
         if not os.path.exists(scene_xml_path):
-            print(f"❌ Scene XML not found. Please run 'build_scene.py'.")
+            print(f"❌ Scene XML not found at: {scene_xml_path}\nPlease ensure 'xmls/niryo_hanoi_cube_scene.xml' exists in the project.")
             return 1
         
         model = mujoco.MjModel.from_xml_path(scene_xml_path)

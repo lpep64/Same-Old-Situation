@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mujoco model="Simple Niryo Demo">
-    <compiler angle="radian" coordinate="local" meshdir="niryo-gym-main/niryo_gym/niryo_robot/meshes/ned2/stl"/>
+    <!-- Use local assets directory for meshes so model remains portable inside this repo -->
+    <compiler angle="radian" coordinate="local" meshdir="assets/ned2/stl"/>
     
     <option timestep="0.002" gravity="0 0 -9.81">
         <flag warmstart="enable"/>

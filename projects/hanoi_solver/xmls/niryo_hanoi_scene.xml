@@ -15,10 +15,11 @@
   <!-- GLOBAL SIMULATION SETTINGS                                    -->
   <!-- ============================================================== -->
   
-  <compiler 
-    angle="radian" 
-    meshdir="../../../models/robots/arms/niryo_ned2/assets" 
-    autolimits="true"/>
+      <compiler 
+            angle="radian" 
+            coordinate="local"
+            meshdir="../../../models/robots/Arms/niryo_ned2/assets/ned2/stl" 
+            autolimits="true"/>
   
   <option timestep="0.002" integrator="RK4" gravity="0 0 -8.0" 
           density="1.0" viscosity="1e-3" iterations="50" tolerance="1e-8">
@@ -69,12 +70,6 @@
     <mesh name="base_gripper" file="base_gripper_1.STL"/>
     <mesh name="r_gripper_finger" file="mors_1.STL"/>
     <mesh name="l_gripper_finger" file="mors_2.STL"/>
-    
-    <!-- ==================== HANOI DISK MESHES ==================== -->
-    <!-- Scaled disk meshes for different sizes -->
-    <mesh scale="0.08 0.08 0.1" name="donut_mesh1" file="../../../../../hanoi/models/hanoi_disk.stl"/>
-    <mesh scale="0.075 0.075 0.1" name="donut_mesh2" file="../../../../../hanoi/models/hanoi_disk.stl"/>
-    <mesh scale="0.07 0.07 0.1" name="donut_mesh3" file="../../../../../hanoi/models/hanoi_disk.stl"/>
     
   </asset>
   
@@ -171,38 +166,39 @@
     
     <!-- ================= HANOI TOWER POSTS ======================= -->
     <!-- Post A (Starting position - typically holds all disks) -->
-    <body name="postA" pos="0.5 0 0.03">
-      <inertial pos="0 0 0" mass="3" diaginertia="0.005 0.005 0.005"/>
-      <geom name="post_blockA" type="cylinder" size="0.002 0.03" rgba="0.2 0.2 0.2 1.0"/>
-      <!-- IK target sites above post A at different heights -->
-      <site name="postA_base" pos="0 0 -0.02" size="0.01 0.01 0.004" type="ellipsoid" rgba="1 0 0 0.05"/>
+            <body name="postA" pos="0.5 0 0.03">
+                  <inertial pos="0 0 0" mass="3" diaginertia="0.005 0.005 0.005"/>
+                  <geom name="post_blockA" type="box" size="0.01 0.01 0.03" rgba="0.2 0.2 0.2 1.0"/>
+      <!-- IK target sites above post A at different heights (adjusted for box posts) -->
+      <!-- box half-height = 0.03, body pos z = 0.03 => bottom = 0.0, top = 0.06 -->
+      <site name="postA_base" pos="0 0 -0.03" size="0.01 0.01 0.004" type="ellipsoid" rgba="1 0 0 0.05"/>
       <site name="postA_level1" pos="0 0 -0.01" size="0.01 0.01 0.004" type="ellipsoid" rgba="1 0.3 0 0.05"/>
-      <site name="postA_level2" pos="0 0 0.0" size="0.01 0.01 0.004" type="ellipsoid" rgba="1 0.6 0 0.05"/>
-      <site name="postA_level3" pos="0 0 0.01" size="0.01 0.01 0.004" type="ellipsoid" rgba="1 0.9 0 0.05"/>
+      <site name="postA_level2" pos="0 0 0.01" size="0.01 0.01 0.004" type="ellipsoid" rgba="1 0.6 0 0.05"/>
+      <site name="postA_level3" pos="0 0 0.03" size="0.01 0.01 0.004" type="ellipsoid" rgba="1 0.9 0 0.05"/>
       <site name="postA_approach" pos="0 0 0.04" size="0.01 0.01 0.004" type="ellipsoid" rgba="1 1 0 0.05"/>
     </body>
     
     <!-- Post B (Intermediate position) -->
-    <body name="postB" pos="0.354 0.354 0.03">
-      <inertial pos="0 0 0" mass="3" diaginertia="0.005 0.005 0.005"/>
-      <geom name="post_blockB" type="cylinder" size="0.002 0.03" rgba="0.2 0.2 0.2 1.0"/>
-      <!-- IK target sites above post B at different heights -->
-      <site name="postB_base" pos="0 0 -0.02" size="0.01 0.01 0.004" type="ellipsoid" rgba="0 1 0 0.05"/>
+            <body name="postB" pos="0.354 0.354 0.03">
+                  <inertial pos="0 0 0" mass="3" diaginertia="0.005 0.005 0.005"/>
+                  <geom name="post_blockB" type="box" size="0.01 0.01 0.03" rgba="0.2 0.2 0.2 1.0"/>
+      <!-- IK target sites above post B at different heights (adjusted for box posts) -->
+      <site name="postB_base" pos="0 0 -0.03" size="0.01 0.01 0.004" type="ellipsoid" rgba="0 1 0 0.05"/>
       <site name="postB_level1" pos="0 0 -0.01" size="0.01 0.01 0.004" type="ellipsoid" rgba="0.3 1 0 0.05"/>
-      <site name="postB_level2" pos="0 0 0.0" size="0.01 0.01 0.004" type="ellipsoid" rgba="0.6 1 0 0.05"/>
-      <site name="postB_level3" pos="0 0 0.01" size="0.01 0.01 0.004" type="ellipsoid" rgba="0.9 1 0 0.05"/>
+      <site name="postB_level2" pos="0 0 0.01" size="0.01 0.01 0.004" type="ellipsoid" rgba="0.6 1 0 0.05"/>
+      <site name="postB_level3" pos="0 0 0.03" size="0.01 0.01 0.004" type="ellipsoid" rgba="0.9 1 0 0.05"/>
       <site name="postB_approach" pos="0 0 0.04" size="0.01 0.01 0.004" type="ellipsoid" rgba="0 1 1 0.05"/>
     </body>
     
     <!-- Post C (Final destination) -->
-    <body name="postC" pos="0.354 -0.354 0.03">
-      <inertial pos="0 0 0" mass="3" diaginertia="0.005 0.005 0.005"/>
-      <geom name="post_blockC" type="cylinder" size="0.002 0.03" rgba="0.2 0.2 0.2 1.0"/>
-      <!-- IK target sites above post C at different heights -->
-      <site name="postC_base" pos="0 0 -0.02" size="0.01 0.01 0.004" type="ellipsoid" rgba="0 0 1 0.05"/>
+            <body name="postC" pos="0.354 -0.354 0.03">
+                  <inertial pos="0 0 0" mass="3" diaginertia="0.005 0.005 0.005"/>
+                  <geom name="post_blockC" type="box" size="0.01 0.01 0.03" rgba="0.2 0.2 0.2 1.0"/>
+      <!-- IK target sites above post C at different heights (adjusted for box posts) -->
+      <site name="postC_base" pos="0 0 -0.03" size="0.01 0.01 0.004" type="ellipsoid" rgba="0 0 1 0.05"/>
       <site name="postC_level1" pos="0 0 -0.01" size="0.01 0.01 0.004" type="ellipsoid" rgba="0 0.3 1 0.05"/>
-      <site name="postC_level2" pos="0 0 0.0" size="0.01 0.01 0.004" type="ellipsoid" rgba="0 0.6 1 0.05"/>
-      <site name="postC_level3" pos="0 0 0.01" size="0.01 0.01 0.004" type="ellipsoid" rgba="0 0.9 1 0.05"/>
+      <site name="postC_level2" pos="0 0 0.01" size="0.01 0.01 0.004" type="ellipsoid" rgba="0 0.6 1 0.05"/>
+      <site name="postC_level3" pos="0 0 0.03" size="0.01 0.01 0.004" type="ellipsoid" rgba="0 0.9 1 0.05"/>
       <site name="postC_approach" pos="0 0 0.04" size="0.01 0.01 0.004" type="ellipsoid" rgba="1 0 1 0.05"/>
     </body>
     
@@ -212,27 +208,24 @@
     <body name="disk_body1" pos="0.5 0 0.05">
       <freejoint/>
       <inertial pos="0 0 0" mass="0.02" diaginertia="0.0002 0.0002 0.0001"/>
-      <!-- Visual mesh for appearance -->
-      <geom name="disk_block1_visual" type="mesh" mesh="donut_mesh1" rgba="0.8 0.2 0.2 1" 
-            contype="0" conaffinity="0"/>
       <!-- IK target sites for grasping disk 1 -->
       <site name="disk1_center" pos="0 0 0" size="0.0016" rgba="1 0.5 0.5 0.7"/>
       <!-- Collision geometry: 8 small cylinders arranged in a ring to approximate donut shape -->
-      <geom name="disk_seg1_1" type="cylinder" size="0.005 0.005" pos="0.025 0 0" rgba="0.8 0.2 0.2 0"
+      <geom name="disk_seg1_1" type="cylinder" size="0.005 0.005" pos="0.025 0 0" rgba="0.8 0.2 0.2 1"
             density="5" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg1_2" type="cylinder" size="0.005 0.005" pos="0.0177 0.0177 0" rgba="0.8 0.2 0.2 0"
+      <geom name="disk_seg1_2" type="cylinder" size="0.005 0.005" pos="0.0177 0.0177 0" rgba="0.8 0.2 0.2 1"
             density="5" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg1_3" type="cylinder" size="0.005 0.005" pos="0 0.025 0" rgba="0.8 0.2 0.2 0"
+      <geom name="disk_seg1_3" type="cylinder" size="0.005 0.005" pos="0 0.025 0" rgba="0.8 0.2 0.2 1"
             density="5" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg1_4" type="cylinder" size="0.005 0.005" pos="-0.0177 0.0177 0" rgba="0.8 0.2 0.2 0"
+      <geom name="disk_seg1_4" type="cylinder" size="0.005 0.005" pos="-0.0177 0.0177 0" rgba="0.8 0.2 0.2 1"
             density="5" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg1_5" type="cylinder" size="0.005 0.005" pos="-0.025 0 0" rgba="0.8 0.2 0.2 0"
+      <geom name="disk_seg1_5" type="cylinder" size="0.005 0.005" pos="-0.025 0 0" rgba="0.8 0.2 0.2 1"
             density="5" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg1_6" type="cylinder" size="0.005 0.005" pos="-0.0177 -0.0177 0" rgba="0.8 0.2 0.2 0"
+      <geom name="disk_seg1_6" type="cylinder" size="0.005 0.005" pos="-0.0177 -0.0177 0" rgba="0.8 0.2 0.2 1"
             density="5" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg1_7" type="cylinder" size="0.005 0.005" pos="0 -0.025 0" rgba="0.8 0.2 0.2 0"
+      <geom name="disk_seg1_7" type="cylinder" size="0.005 0.005" pos="0 -0.025 0" rgba="0.8 0.2 0.2 1"
             density="5" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg1_8" type="cylinder" size="0.005 0.005" pos="0.0177 -0.0177 0" rgba="0.8 0.2 0.2 0"
+      <geom name="disk_seg1_8" type="cylinder" size="0.005 0.005" pos="0.0177 -0.0177 0" rgba="0.8 0.2 0.2 1"
             density="5" friction="1.2 0.8 0.01"/>
     </body>
     
@@ -240,27 +233,24 @@
     <body name="disk_body2" pos="0.5 0 0.3">
       <freejoint/>
       <inertial pos="0 0 0" mass="0.015" diaginertia="0.00015 0.00015 0.00008"/>
-      <!-- Visual mesh for appearance -->
-      <geom name="disk_block2_visual" type="mesh" mesh="donut_mesh2" rgba="0.2 0.8 0.2 1" 
-            contype="0" conaffinity="0"/>
       <!-- IK target sites for grasping disk 2 -->
       <site name="disk2_center" pos="0 0 0" size="0.0016" rgba="0.5 1 0.5 0.7"/>
       <!-- Collision geometry: 8 small cylinders arranged in a ring to approximate donut shape -->
-      <geom name="disk_seg2_1" type="cylinder" size="0.005 0.005" pos="0.022 0 0" rgba="0.2 0.8 0.2 0"
+      <geom name="disk_seg2_1" type="cylinder" size="0.005 0.005" pos="0.022 0 0" rgba="0.2 0.8 0.2 1"
             density="4" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg2_2" type="cylinder" size="0.005 0.005" pos="0.0156 0.0156 0" rgba="0.2 0.8 0.2 0"
+      <geom name="disk_seg2_2" type="cylinder" size="0.005 0.005" pos="0.0156 0.0156 0" rgba="0.2 0.8 0.2 1"
             density="4" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg2_3" type="cylinder" size="0.005 0.005" pos="0 0.022 0" rgba="0.2 0.8 0.2 0"
+      <geom name="disk_seg2_3" type="cylinder" size="0.005 0.005" pos="0 0.022 0" rgba="0.2 0.8 0.2 1"
             density="4" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg2_4" type="cylinder" size="0.005 0.005" pos="-0.0156 0.0156 0" rgba="0.2 0.8 0.2 0"
+      <geom name="disk_seg2_4" type="cylinder" size="0.005 0.005" pos="-0.0156 0.0156 0" rgba="0.2 0.8 0.2 1"
             density="4" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg2_5" type="cylinder" size="0.005 0.005" pos="-0.022 0 0" rgba="0.2 0.8 0.2 0"
+      <geom name="disk_seg2_5" type="cylinder" size="0.005 0.005" pos="-0.022 0 0" rgba="0.2 0.8 0.2 1"
             density="4" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg2_6" type="cylinder" size="0.005 0.005" pos="-0.0156 -0.0156 0" rgba="0.2 0.8 0.2 0"
+      <geom name="disk_seg2_6" type="cylinder" size="0.005 0.005" pos="-0.0156 -0.0156 0" rgba="0.2 0.8 0.2 1"
             density="4" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg2_7" type="cylinder" size="0.005 0.005" pos="0 -0.022 0" rgba="0.2 0.8 0.2 0"
+      <geom name="disk_seg2_7" type="cylinder" size="0.005 0.005" pos="0 -0.022 0" rgba="0.2 0.8 0.2 1"
             density="4" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg2_8" type="cylinder" size="0.005 0.005" pos="0.0156 -0.0156 0" rgba="0.2 0.8 0.2 0"
+      <geom name="disk_seg2_8" type="cylinder" size="0.005 0.005" pos="0.0156 -0.0156 0" rgba="0.2 0.8 0.2 1"
             density="4" friction="1.2 0.8 0.01"/>
     </body>
     
@@ -268,27 +258,24 @@
     <body name="disk_body3" pos="0.5 0 0.4">
       <freejoint/>
       <inertial pos="0 0 0" mass="0.01" diaginertia="0.0001 0.0001 0.00005"/>
-      <!-- Visual mesh for appearance -->
-      <geom name="disk_block3_visual" type="mesh" mesh="donut_mesh3" rgba="0.2 0.2 0.8 1" 
-            contype="0" conaffinity="0"/>
       <!-- IK target sites for grasping disk 3 -->
       <site name="disk3_center" pos="0 0 0" size="0.0016" rgba="0.5 0.5 1 0.7"/>
       <!-- Collision geometry: 8 small cylinders arranged in a ring to approximate donut shape -->
-      <geom name="disk_seg3_1" type="cylinder" size="0.005 0.005" pos="0.018 0 0" rgba="0.2 0.2 0.8 0"
+      <geom name="disk_seg3_1" type="cylinder" size="0.005 0.005" pos="0.018 0 0" rgba="0.2 0.2 0.8 1"
             density="3" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg3_2" type="cylinder" size="0.005 0.005" pos="0.0127 0.0127 0" rgba="0.2 0.2 0.8 0"
+      <geom name="disk_seg3_2" type="cylinder" size="0.005 0.005" pos="0.0127 0.0127 0" rgba="0.2 0.2 0.8 1"
             density="3" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg3_3" type="cylinder" size="0.005 0.005" pos="0 0.018 0" rgba="0.2 0.2 0.8 0"
+      <geom name="disk_seg3_3" type="cylinder" size="0.005 0.005" pos="0 0.018 0" rgba="0.2 0.2 0.8 1"
             density="3" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg3_4" type="cylinder" size="0.005 0.005" pos="-0.0127 0.0127 0" rgba="0.2 0.2 0.8 0"
+      <geom name="disk_seg3_4" type="cylinder" size="0.005 0.005" pos="-0.0127 0.0127 0" rgba="0.2 0.2 0.8 1"
             density="3" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg3_5" type="cylinder" size="0.005 0.005" pos="-0.018 0 0" rgba="0.2 0.2 0.8 0"
+      <geom name="disk_seg3_5" type="cylinder" size="0.005 0.005" pos="-0.018 0 0" rgba="0.2 0.2 0.8 1"
             density="3" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg3_6" type="cylinder" size="0.005 0.005" pos="-0.0127 -0.0127 0" rgba="0.2 0.2 0.8 0"
+      <geom name="disk_seg3_6" type="cylinder" size="0.005 0.005" pos="-0.0127 -0.0127 0" rgba="0.2 0.2 0.8 1"
             density="3" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg3_7" type="cylinder" size="0.005 0.005" pos="0 -0.018 0" rgba="0.2 0.2 0.8 0"
+      <geom name="disk_seg3_7" type="cylinder" size="0.005 0.005" pos="0 -0.018 0" rgba="0.2 0.2 0.8 1"
             density="3" friction="1.2 0.8 0.01"/>
-      <geom name="disk_seg3_8" type="cylinder" size="0.005 0.005" pos="0.0127 -0.0127 0" rgba="0.2 0.2 0.8 0"
+      <geom name="disk_seg3_8" type="cylinder" size="0.005 0.005" pos="0.0127 -0.0127 0" rgba="0.2 0.2 0.8 1"
             density="3" friction="1.2 0.8 0.01"/>
     </body>
     
