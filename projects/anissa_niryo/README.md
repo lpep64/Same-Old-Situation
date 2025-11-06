@@ -88,37 +88,6 @@ python -c "import mujoco; print(f'MuJoCo version: {mujoco.__version__}')"
 
 ## Files
 
-### Basic Demos
-- `niryo_demo_simple.xml` - MuJoCo scene definition (basic)
-- `simple_niryo_demo.py` - Python script to launch the simulation (basic)
-
-### Advanced Pick & Place Simulation
-- `niryo_conveyor.xml` - Complete scene with conveyor belt and movable block
-- `scripts/niryo_pick_place_code_sim.py` - Automated pick and place with inverse kinematics
-- `niryo_documentation.md` - Comprehensive technical documentation of the pick & place system
-
-### Mesh Files
-- `niryo-gym-main\niryo_gym\niryo_robot\meshes\ned2\stl` - Original STL file path (deprecated)
-- `../../models/robots/Arms/niryo_ned2/assets/ned2/stl` - Current STL file location
-
-## Running the Simulations
-
-### Basic Demo (Manual Control)
-```bash
-python simple_niryo_demo.py
-```
-
-### Advanced Pick & Place Demo (Automated IK)
-```bash
-cd scripts
-python niryo_pick_place_code_sim.py
-```
-
-This advanced demo features:
-- **Optimization-based Inverse Kinematics** using scipy.optimize
-- **Kinematic magnet system** for reliable grasping
-- **9-phase trajectory execution** (home → pick → place → return)
-- **Orientation control** for proper gripper alignment
-- **Smooth interpolation** using smoothstep function
-
-See `niryo_documentation.md` for detailed technical information about the magnet system, IK solver, and trajectory planning.
+- `niryo_demo_simple.xml` - MuJoCo scene definition
+- `simple_niryo_demo.py` - Python script to launch the simulation
+- `niryo-gym-main\niryo_gym\niryo_robot\meshes\ned2\stl` - folder path to the stl files loaded in the scene
