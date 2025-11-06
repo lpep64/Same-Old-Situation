@@ -18,7 +18,7 @@ def set_gripper(desired_q, option="open"):
 
 def main():
     # MuJoCo Panda parsing
-    # Get the root directory of the repository (go up 2 levels from projects/mujo_manipulation/)
+    # Get the root directory of the repository
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
     xml_path = os.path.join(repo_root, 'models', 'vendors', 'mujoManipulation', 'panda', 'franka_panda_w_objs.xml')
     env = MuJoCoParserClass(name='Panda', rel_xml_path=xml_path, VERBOSE=False)
