@@ -27,78 +27,80 @@ ls models/robots/Arms/
 This repository is optimized for robotics projects and model usage:
 
 ```
-mujoco/                          # Streamlined workspace
-├── examples/                    # 🎯 Learning & reference materials
-│   ├── basic/                  # Fundamental physics demos
-│   ├── robotics/               # Robot-specific examples
-│   ├── machine_learning/       # AI/ML integration
-│   ├── tutorial/               # Step-by-step learning
+Same-Old-Situation/              # Unified robotics framework
+├── examples/                    # � Lightweight tutorials & demos
+│   ├── basic/                  # Fundamental physics examples
+│   ├── tutorial/               # Step-by-step learning scripts
 │   ├── gui/                    # Interactive demonstrations
 │   ├── tools/                  # Utilities & controllers (cem, ddp, mpc)
 │   └── testing/                # Validation & testing
-├── models/                     # 🤖 Comprehensive robot library
-│   ├── basic/                  # Core physics models
-│   └── robots/                 # Organized by type
-│       ├── Arms/               # Franka, UR5e, Niryo, etc.
-│       ├── Humanoids/          # H1, G1, Atlas, etc.
-│       ├── Quadrupeds/         # Spot, A1, Go1, etc.
-│       └── [other categories]
-├── projects/                   # 🏗️ Your active projects
-│   ├── anissa_niryo/          # Niryo robot demonstrations
-│   ├── hanoi_solver/          # Tower of Hanoi RL project
+├── models/                     # 🤖 Comprehensive model library
+│   ├── basic/                  # Simple demo models (car, pendulum, etc.)
+│   ├── robots/                 # Production robot models by type
+│   │   ├── Arms/              # Franka, UR5e, Niryo, etc.
+│   │   ├── Humanoids/         # H1, G1, Atlas, etc.
+│   │   ├── Quadrupeds/        # Spot, A1, Go1, etc.
+│   │   └── [other categories]
+│   └── vendors/                # Third-party assets (properly attributed)
+│       ├── mujoManipulation/  # Manipulation primitives
+│       └── mujoco_menagerie/  # DeepMind robot models
+├── projects/                   # 🏗️ Active research projects
+│   ├── mujo_manipulation/     # Pick-and-place manipulation
+│   ├── rl_training/           # Reinforcement learning experiments
+│   ├── hanoi_rl/              # Tower of Hanoi RL solver
+│   ├── hanoi_solver/          # Tower of Hanoi demonstrations
 │   ├── franka_demos/          # Franka robot examples
-│   └── project_template/      # Template for new projects
-├── requirements.txt           # Essential dependencies only
+│   └── anissa_niryo/          # Niryo robot demonstrations
+├── requirements.txt           # Essential dependencies
 └── README.md                  # This documentation
 ```
 
 ### 🗑️ **Removed (Framework Development Only)**
-- `cmake/`, `src/`, `include/` - C++ compilation (you use pip mujoco)
-- `unity/`, `mjx/`, `plugin/` - Advanced integrations (not needed)
-- `doc/`, `python/` - Available online and via pip
+- `mujoco_git/`, `mpc_git/`, `mantipulation_git/` - Now managed via pip or vendored
+- `examples/robotics/` - Moved to projects/ or models/
+- `examples/machine_learning/` - Moved to projects/rl_training/
 
 ## 🔧 **Key Improvements**
 
-### ✅ **Streamlined for Projects**
-- **Removed** build system dependencies (cmake, src, include)
-- **Removed** advanced integrations (unity, mjx, plugins) 
-- **Simplified** to essential dependencies for robotics projects
+### ✅ **Clean Separation of Concerns**
+- **examples/** - Lightweight tutorials and reference demos only
+- **models/** - Centralized model library with vendor attribution
+- **projects/** - Complete applications with saved state and outputs
 
-### ✅ **Better Organization**
-- **Merged** `examples/ml/` + `demos/ml_examples/` → `examples/machine_learning/`
-- **Consolidated** `test/` → `examples/testing/`
-- **Moved** shared controllers to `examples/tools/` for reference
+### ✅ **Eliminated Redundancy**
+- **Removed** duplicate robot models from examples/ (now in models/robots/)
+- **Vendored** third-party assets properly (mujoManipulation, mujoco_menagerie)
+- **Consolidated** project-like code (RL training, manipulation) into projects/
 
-### ✅ **Project-Focused Structure**
-- **Separated** personal projects into dedicated `projects/` workspace
-- **Integrated** Niryo models into official `models/robots/Arms/niryo_ned2/`
-- **Created** standardized project template for consistency
+### ✅ **Professional Structure**
+- **Dependencies** managed via pip (requirements.txt)
+- **Attribution** preserved in vendors/ with original LICENSE/README
+- **Projects** organized with clear purpose and saved artifacts
 
 ## 🎯 **Getting Started Paths**
 
 ### **New to MuJoCo?**
 ```bash
 cd examples/tutorial/
-python 01_basic_simulation.py
+python mujoco_base.py
 ```
 
-### **Robot Development?**
+### **Robot Manipulation?**
 ```bash
-cd examples/robotics/
-python franka_arm_demo.py
+cd projects/mujo_manipulation/
+python pnp.py  # Pick-and-place demo
 ```
 
-### **AI/ML Research?**
+### **Reinforcement Learning?**
 ```bash
-cd examples/machine_learning/
-python reinforcement_learning_basics.py
+cd projects/rl_training/
+python quick_rl_training.py
 ```
 
 ### **Custom Project?**
 ```bash
-cp -r project_template/ projects/my_project/
-cd projects/my_project/
-# Edit README.md and start developing
+cd projects/hanoi_rl/
+# Use as template for new projects
 ```
 
 ## 🤖 **Robot Models Available**
@@ -131,7 +133,28 @@ cd projects/my_project/
 3. **Develop**: Create new project in `projects/` using template
 4. **Share**: Contribute improvements back to `examples/`
 
-## 📄 **License**
+## � **Acknowledgements and Citations**
+
+This repository unifies several foundational codebases and asset libraries into a single, streamlined framework for robotics research. We gratefully acknowledge the authors of the original work.
+
+### **Primary Author**
+**Luke Pepin** - Primary architecture, framework integration, and task implementation
+
+### **Foundational Code and Examples**
+This project curates and adapts code from the following repositories. We extend our thanks to the original authors for their contributions to the field:
+
+- **mujoManipulation**: Original author credits: Romesh Prasad, Juan Lopez
+- **MuJoCo_Sample**: Original author credits: Anissa Elias
+
+### **Asset Library**
+This framework utilizes robotics models from the **MuJoCo Menagerie**, a high-quality collection of models curated by Google DeepMind.
+
+- **Repository**: [google-deepmind/mujoco_menagerie](https://github.com/google-deepmind/mujoco_menagerie)
+- **Reference**: https://github.com/google-deepmind/mujoco_menagerie
+
+All vendored assets retain their original `LICENSE` and `README.md` files within their respective directories (e.g., `models/vendors/mujoco_menagerie/franka_emika_panda/`).
+
+## �📄 **License**
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
 
