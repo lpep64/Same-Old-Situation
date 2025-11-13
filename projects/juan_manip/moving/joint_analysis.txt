@@ -1,0 +1,41 @@
+﻿JOINT LIMIT ANALYSIS
+==================
+
+Joint Limits (from ned2_robot.xml):
+shoulder: -2.99987 to 2.99987 rad
+arm:      -1.8326 to 0.610167 rad
+elbow:    -1.34006 to 1.5701 rad
+forearm:  -2.09003 to 2.09003 rad
+wrist:    -1.92004 to 1.92283 rad
+hand:     -2.53003 to 2.53003 rad
+
+Problematic Positions from Test:
+
+1. Move DOWN to place (Position 5):
+   Target: [ 1.24904577 -1.80000000  1.57  0  1.75232126  1.89254688 -0.01 -0.01]
+   Error: 0.254434 rad (stuck at arm_joint = -1.54556574)
+   ISSUE: arm_joint target is -1.80, but limit is -1.8326 to 0.610167
+          Target -1.80 is WITHIN limits but very close to lower limit
+          Actual position stuck at -1.545, difference of 0.254 rad
+          Robot cannot physically reach -1.80 from current configuration
+
+2. Move DOWN to original (Position 12):
+   Target: [ 1.42889927 -1.68622602  1.57  0  1.66858728  1.71269338 -0.01 -0.01]
+   Error: 0.110691 rad (stuck at arm_joint = -1.57553529)
+   ISSUE: arm_joint target is -1.686, limit is -1.8326 to 0.610167
+          Target -1.686 is WITHIN limits
+          Actual position stuck at -1.575, difference of 0.110 rad
+          Robot cannot reach -1.686 from current pose
+
+ROOT CAUSE:
+The IK solver is generating joint angles that are technically within limits,
+but the robot cannot achieve them due to:
+1. Arm joint is trying to go very negative (near -1.8 rad, close to limit)
+2. These extreme negative arm angles may cause self-collision or singularities
+3. The position actuators cannot overcome the physical constraints
+
+SOLUTIONS:
+1. Modify IK solver to avoid extreme arm joint angles (keep arm > -1.5 rad)
+2. Adjust target positions to be more reachable (higher Z, less reach required)
+3. Add joint angle penalties in IK to prefer mid-range positions
+4. Simplify the pick-and-place path to avoid extreme configurations
