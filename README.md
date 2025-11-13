@@ -47,8 +47,7 @@ Same-Old-Situation/              # Unified robotics framework
 ├── projects/                   # 🏗️ Active research projects
 │   ├── mujo_manipulation/     # Pick-and-place manipulation
 │   ├── rl_training/           # Reinforcement learning experiments
-│   ├── hanoi_rl/              # Tower of Hanoi RL solver
-│   ├── hanoi_solver/          # Tower of Hanoi demonstrations
+│   ├── hanoi/              # Tower of Hanoi RL solver
 │   ├── franka_demos/          # Franka robot examples
 │   └── anissa_niryo/          # Niryo robot demonstrations
 ├── requirements.txt           # Essential dependencies
