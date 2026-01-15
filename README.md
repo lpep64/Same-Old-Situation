@@ -47,30 +47,48 @@ pytest -v
 
 ## Project Structure
 
-The demos are organized by topic for easy navigation:
+The project is organized into demonstrations, models, and supporting resources:
 
 ```
 MuJoCo-Testing/
- demos/                      # Organized demonstrations (8 categories)
-    01-fundamentals/       # Basic physics and concepts
-    02-visualization/      # GUI and interactive demos
-    03-robotics-arms/      # Arm and manipulator robots
-    04-locomotion/         # Legged locomotion
-    05-manipulation/       # Pick and place, grasping
-    06-learning-rl/        # RL training and optimal control
-    07-tools/              # Optimization and control utilities
-    08-testing/            # Integration tests
- models/                     # Physics model definitions
-    basic/                 # Simple demonstration models
-    robots/                # Robot model library
-    vendors/               # Third-party models (MuJoCo Menagerie)
- tests/                      # Unit and system tests
- docs/                       # Project documentation
- README.md                   # This file
- CONTRIBUTING.md             # Development guidelines
- requirements.txt            # Runtime dependencies
- pyproject.toml             # Package configuration
- .github/                   # CI/CD pipelines and templates
+├── demos/                         # Main demonstration scripts (8 categories)
+│   ├── 01-fundamentals/           # Basic physics and concepts
+│   ├── 02-visualization/          # GUI and interactive demos
+│   ├── 03-robotics-arms/          # Arm and manipulator robots
+│   ├── 04-locomotion/             # Legged locomotion
+│   ├── 05-manipulation/           # Pick and place, grasping
+│   ├── 06-learning-rl/            # RL training and optimal control
+│   ├── 07-tools/                  # Optimization and control utilities
+│   └── 08-testing/                # Integration tests
+│
+├── examples/                      # Legacy examples and tutorials
+│   ├── basic/                     # C++ physics examples
+│   ├── gui/                       # GUI implementations
+│   ├── testing/                   # Test fixtures
+│   ├── tools/                     # Utility scripts (CEM, DDP, MPC)
+│   └── tutorial/                  # Python tutorial scripts
+│
+├── projects/                      # Specialized project implementations
+│   ├── anissa_niryo/              # Niryo robot projects
+│   ├── franka_demos/              # Franka Panda demonstrations
+│   ├── hanoi/                     # Tower of Hanoi solver
+│   ├── juan_manip/                # Manipulation experiments
+│   ├── mujo_manipulation/         # Pick and place implementations
+│   └── rl_training/               # Reinforcement learning projects
+│
+├── models/                        # Physics model definitions
+│   ├── basic/                     # Simple demonstration models
+│   ├── robots/                    # Robot model library (URDF/XML)
+│   └── vendors/                   # Third-party models
+│
+├── tests/                         # Unit and system tests
+├── docs/                          # Project documentation
+├── README.md                      # This file
+├── CONTRIBUTING.md                # Development guidelines
+├── MIGRATION.md                   # Migration guide (old → new structure)
+├── requirements.txt               # Runtime dependencies
+├── pyproject.toml                 # Package configuration
+└── .github/                       # CI/CD pipelines and templates
 ```
 
 ## Learning Paths
