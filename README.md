@@ -136,10 +136,10 @@ Interactive graphical demonstrations:
 
 ### 03-Robotics-Arms
 Robotic arm demonstrations:
-- Franka Panda arm
-- UR robot arm
-- Niryo One robot
+- Franka Panda arm (7-DOF industrial manipulator)
+- Niryo One robot (6-DOF collaborative arm)
 - Arm kinematics and dynamics
+- Trajectory control
 
 ### 04-Locomotion
 Legged robot demonstrations:
