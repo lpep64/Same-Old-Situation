@@ -1,42 +1,84 @@
-# Don't commit binaries
+# Python byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
 *.a
-*.asm
 *.dll
 *.dylib
 *.exe
 *.lib
 *.out
 *.o
-*.so
-*.so.*
+*.asm
 
-# Exclude editor config
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# IDE / Editor
 .vscode/
 .vs/
-
-# Exclude temporary folders
-*.egg-info/
-build/
-build_cmake/
-python/dist/
-doc/_build
-
-# Exclude macOS folder attributes
+.idea/
+*.swp
+*.swo
+*.swn
+*~
 .DS_Store
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
 
-# Exclude macOS Info.framework.plist
-Info.framework.plist
+# Build artifacts
+cmake-build-debug/
+cmake-build-release/
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+build_cmake/
 
-# Python byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
-
-# MuJoCo's default log file
+# MuJoCo specific
 MUJOCO_LOG.TXT
+*.log
 
 # Clang cache
 .cache/
 
-# Note: Expensive GitHub Actions workflows have been removed to save costs
-# Avoid adding .github/workflows/build.yml or similar expensive CI files
+# OS specific
+.DS_Store
+Thumbs.db

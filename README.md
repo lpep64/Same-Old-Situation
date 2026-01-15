@@ -1,162 +1,239 @@
-# MuJoCo Development Framework
+# MuJoCo-Testing
 
-**A comprehensive, optimized MuJoCo framework for physics simulation, robotics research, and machine learning applications.**
+**Physics simulation and robotics examples using MuJoCo for research and education at the University of Rhode Island, Industrial Systems Engineering.**
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.8+-green.svg)](https://python.org)
-[![MuJoCo](https://img.shields.io/badge/MuJoCo-3.0+-orange.svg)](https://mujoco.org)
 
-## 🚀 Quick Start
+## Overview
+
+MuJoCo-Testing is a curated collection of physics simulation examples and robotics models demonstrating key concepts in dynamics, control, and manipulation. This repository serves as both a learning resource and a showcase of work in industrial systems engineering.
+
+## Quick Start
+
+### Installation
 
 ```bash
-# Test basic functionality
-python examples/basic/basic_tests.py
-
-# Try interactive GUI demo
-python examples/gui/simple_gui.py
-
-# Explore robotics examples
-python examples/robotics/franka_arm_demo.py
-
-# Check available models
-ls models/robots/Arms/
+git clone https://github.com/URI-ISE/MuJoCo-Testing.git
+cd MuJoCo-Testing
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+pip install -e ".[dev]"
 ```
 
-## 📁 **Streamlined Project Structure**
+### Running Demonstrations
 
-This repository is optimized for robotics projects and model usage:
-
-```
-Same-Old-Situation/              # Unified robotics framework
-├── examples/                    # � Lightweight tutorials & demos
-│   ├── basic/                  # Fundamental physics examples
-│   ├── tutorial/               # Step-by-step learning scripts
-│   ├── gui/                    # Interactive demonstrations
-│   ├── tools/                  # Utilities & controllers (cem, ddp, mpc)
-│   └── testing/                # Validation & testing
-├── models/                     # 🤖 Comprehensive model library
-│   ├── basic/                  # Simple demo models (car, pendulum, etc.)
-│   ├── robots/                 # Production robot models by type
-│   │   ├── Arms/              # Franka, UR5e, Niryo, etc.
-│   │   ├── Humanoids/         # H1, G1, Atlas, etc.
-│   │   ├── Quadrupeds/        # Spot, A1, Go1, etc.
-│   │   └── [other categories]
-│   └── vendors/                # Third-party assets (properly attributed)
-│       ├── mujoManipulation/  # Manipulation primitives
-│       └── mujoco_menagerie/  # DeepMind robot models
-├── projects/                   # 🏗️ Active research projects
-│   ├── mujo_manipulation/     # Pick-and-place manipulation
-│   ├── rl_training/           # Reinforcement learning experiments
-│   ├── hanoi/              # Tower of Hanoi RL solver
-│   ├── franka_demos/          # Franka robot examples
-│   └── anissa_niryo/          # Niryo robot demonstrations
-├── requirements.txt           # Essential dependencies
-└── README.md                  # This documentation
-```
-
-### 🗑️ **Removed (Framework Development Only)**
-- `mujoco_git/`, `mpc_git/`, `mantipulation_git/` - Now managed via pip or vendored
-- `examples/robotics/` - Moved to projects/ or models/
-- `examples/machine_learning/` - Moved to projects/rl_training/
-
-## 🔧 **Key Improvements**
-
-### ✅ **Clean Separation of Concerns**
-- **examples/** - Lightweight tutorials and reference demos only
-- **models/** - Centralized model library with vendor attribution
-- **projects/** - Complete applications with saved state and outputs
-
-### ✅ **Eliminated Redundancy**
-- **Removed** duplicate robot models from examples/ (now in models/robots/)
-- **Vendored** third-party assets properly (mujoManipulation, mujoco_menagerie)
-- **Consolidated** project-like code (RL training, manipulation) into projects/
-
-### ✅ **Professional Structure**
-- **Dependencies** managed via pip (requirements.txt)
-- **Attribution** preserved in vendors/ with original LICENSE/README
-- **Projects** organized with clear purpose and saved artifacts
-
-## 🎯 **Getting Started Paths**
-
-### **New to MuJoCo?**
 ```bash
-cd examples/tutorial/
-python mujoco_base.py
+# Fundamental physics
+python demos/01-fundamentals/basic_tests.py
+
+# GUI visualization
+python demos/02-visualization/simple_gui.py
+
+# Robotics arms (Franka)
+python demos/03-robotics-arms/franka_panda.py
+
+# RL training (Hanoi solver)
+python demos/06-learning-rl/hanoi_solver.py
 ```
 
-### **Robot Manipulation?**
+### Running Tests
+
 ```bash
-cd projects/mujo_manipulation/
-python pnp.py  # Pick-and-place demo
+pytest tests/
+pytest -v
 ```
 
-### **Reinforcement Learning?**
+## Project Structure
+
+The demos are organized by topic for easy navigation:
+
+```
+MuJoCo-Testing/
+ demos/                      # Organized demonstrations (8 categories)
+    01-fundamentals/       # Basic physics and concepts
+    02-visualization/      # GUI and interactive demos
+    03-robotics-arms/      # Arm and manipulator robots
+    04-locomotion/         # Legged locomotion
+    05-manipulation/       # Pick and place, grasping
+    06-learning-rl/        # RL training and optimal control
+    07-tools/              # Optimization and control utilities
+    08-testing/            # Integration tests
+ models/                     # Physics model definitions
+    basic/                 # Simple demonstration models
+    robots/                # Robot model library
+    vendors/               # Third-party models (MuJoCo Menagerie)
+ tests/                      # Unit and system tests
+ docs/                       # Project documentation
+ README.md                   # This file
+ CONTRIBUTING.md             # Development guidelines
+ requirements.txt            # Runtime dependencies
+ pyproject.toml             # Package configuration
+ .github/                   # CI/CD pipelines and templates
+```
+
+## Learning Paths
+
+Choose a learning path based on your interests:
+
+### Path 1: Physics Fundamentals
+`ash
+cd demos/01-fundamentals/
+python basic_tests.py          # Basic physics
+python pendulum.py             # Pendulum control
+`
+
+### Path 2: Visualization & GUI
+`ash
+cd demos/02-visualization/
+python simple_gui.py           # Interactive visualization
+`
+
+### Path 3: Robotic Arms
+`ash
+cd demos/03-robotics-arms/
+python franka_panda.py         # Franka Emika Panda
+python niryo_arm.py            # Niryo One robot
+`
+
+### Path 4: Legged Locomotion
+`ash
+cd demos/04-locomotion/
+python biped_walker.py         # Biped walking patterns
+python quadruped_gait.py       # Quadruped gaits
+`
+
+### Path 5: Manipulation & Grasping
+`ash
+cd demos/05-manipulation/
+python pick_and_place.py       # Pick and place tasks
+python manipulation_tasks.py    # Advanced manipulation
+`
+
+### Path 6: Learning & Control
+`ash
+cd demos/06-learning-rl/
+python hanoi_solver.py         # RL solver (Tower of Hanoi)
+python policy_training.py      # Reinforcement learning
+python control_optimization.py # Optimal control
+`
+
+## Demonstration Categories
+
+### 01-Fundamentals
+Physics basics and essential concepts:
+- Basic physics simulation
+- Pendulum dynamics and control
+- Collision detection and response
+- Multi-body dynamics
+
+### 02-Visualization
+Interactive graphical demonstrations:
+- Simple GUI examples
+- Real-time visualization
+- Interactive control
+
+### 03-Robotics-Arms
+Robotic arm demonstrations:
+- Franka Panda arm
+- UR robot arm
+- Niryo One robot
+- Arm kinematics and dynamics
+
+### 04-Locomotion
+Legged robot demonstrations:
+- Biped walkers
+- Quadruped gaits
+- Locomotion control
+
+### 05-Manipulation
+Manipulation and grasping:
+- Pick and place tasks
+- Manipulation primitives
+- Grasping strategies
+
+### 06-Learning-RL
+Reinforcement learning and optimal control:
+- RL training examples
+- Policy optimization
+- Tower of Hanoi solver
+- Model-based control
+
+### 07-Tools
+Utility scripts and optimization tools:
+- Cross-entropy method (CEM)
+- Differential dynamic programming (DDP)
+- Model predictive control (MPC)
+- Other control algorithms
+
+### 08-Testing
+Integration tests and validation:
+- System tests
+- Performance benchmarks
+- Validation suite
+
+## Dependencies
+
+Core:
+- mujoco (>=3.0.0): Physics engine
+- numpy (>=1.21.0): Numerical computing
+- scipy (>=1.7.0): Scientific computing
+- gymnasium (>=0.26.0): RL environments
+- stable-baselines3 (>=2.0.0): RL algorithms
+
+Development:
+- pytest: Testing framework
+- black: Code formatting
+
+See requirements.txt for complete list.
+
+## Development
+
+### Setting Up
+
 ```bash
-cd projects/rl_training/
-python quick_rl_training.py
+pip install -e ".[dev]"
+pytest
+black demos/ models/ tests/
 ```
 
-### **Custom Project?**
-```bash
-cd projects/hanoi_rl/
-# Use as template for new projects
-```
+### Contributing
 
-## 🤖 **Robot Models Available**
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
+- Development environment setup
+- Running tests and linting
+- Submitting pull requests
+- Code style standards
 
-- **Arms**: Franka FR3/Panda, UR5e/UR10e, Niryo NED2, Kinova Gen3, KUKA iiwa
-- **Humanoids**: Unitree H1/G1, Boston Dynamics Atlas, Honda ASIMO variants  
-- **Quadrupeds**: Boston Dynamics Spot, Unitree A1/Go1/Go2, ANYmal
-- **Hands**: Shadow Hand, Allegro Hand, LEAP Hand
-- **Mobile**: TurtleBot, Tiago, Spot + arm combinations
+## Organization & Attribution
 
-## 🔗 **Key Features**
+### Primary Contributors
+- Luke Pepin: Framework architecture and integration
 
-- **Unified Examples**: All learning materials in one place
-- **Modular Controllers**: Reusable control algorithms
-- **Project Templates**: Quick start for new developments
-- **Official Models**: Comprehensive robot library
-- **Clean Architecture**: Separated framework from user projects
+### Foundational Code
+- mujoManipulation: Pick-and-place manipulation (Romesh Prasad, Juan Lopez)
+- MuJoCo_Sample: Initial robotics examples (Anissa Elias)
 
-## 📖 **Documentation**
+### Model Library
+- MuJoCo Menagerie (DeepMind): Curated robot models
+  - Source: https://github.com/google-deepmind/mujoco_menagerie
 
-- `examples/README.md` - Comprehensive learning guide
-- `projects/project_template/README.md` - Project development guide
-- `doc/` - Official MuJoCo documentation
-- Each directory contains specific documentation
+All vendored assets retain original LICENSE and README files in models/vendors/.
 
-## 🛠️ **Development Workflow**
+## License
 
-1. **Learn**: Start with `examples/tutorial/`
-2. **Explore**: Try `examples/robotics/` or `examples/machine_learning/`
-3. **Develop**: Create new project in `projects/` using template
-4. **Share**: Contribute improvements back to `examples/`
+This project is licensed under Apache License 2.0. See [LICENSE](LICENSE) for details.
 
-## � **Acknowledgements and Citations**
+MuJoCo is proprietary software by DeepMind. See https://mujoco.org for licensing information.
 
-This repository unifies several foundational codebases and asset libraries into a single, streamlined framework for robotics research. We gratefully acknowledge the authors of the original work.
+## References
 
-### **Primary Author**
-**Luke Pepin** - Primary architecture, framework integration, and task implementation
-
-### **Foundational Code and Examples**
-This project curates and adapts code from the following repositories. We extend our thanks to the original authors for their contributions to the field:
-
-- **mujoManipulation**: Original author credits: Romesh Prasad, Juan Lopez
-- **MuJoCo_Sample**: Original author credits: Anissa Elias
-
-### **Asset Library**
-This framework utilizes robotics models from the **MuJoCo Menagerie**, a high-quality collection of models curated by Google DeepMind.
-
-- **Repository**: [google-deepmind/mujoco_menagerie](https://github.com/google-deepmind/mujoco_menagerie)
-- **Reference**: https://github.com/google-deepmind/mujoco_menagerie
-
-All vendored assets retain their original `LICENSE` and `README.md` files within their respective directories (e.g., `models/vendors/mujoco_menagerie/franka_emika_panda/`).
-
-## �📄 **License**
-
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+- MuJoCo: https://mujoco.org
+- MuJoCo Menagerie: https://github.com/google-deepmind/mujoco_menagerie
+- Gymnasium: https://gymnasium.farama.org/
 
 ---
 
-**MuJoCo** stands for **Mu**lti-**Jo**int dynamics with **Co**ntact. It is a general purpose physics engine that aims to facilitate research and development in robotics, biomechanics, graphics and animation, machine learning, and other areas which demand fast and accurate simulation of articulated structures interacting with their environment.
+**University of Rhode Island, Industrial Systems Engineering**  
+*Last updated: January 15, 2026*

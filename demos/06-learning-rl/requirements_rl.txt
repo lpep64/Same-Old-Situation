@@ -1,0 +1,13 @@
+# Reinforcement Learning dependencies for Hanoi Tower project
+gymnasium>=0.29.0
+stable-baselines3[extra]>=2.0.0  # Include extra dependencies for progress bars
+torch>=1.13.0
+matplotlib>=3.5.0
+numpy>=1.21.0
+tensorboard>=2.10.0
+tqdm>=4.60.0  # Progress bars
+rich>=10.0.0  # Rich formatting
+
+# Optional: for better performance
+# opencv-python>=4.5.0  # For visual rendering
+# wandb>=0.13.0  # For experiment tracking
